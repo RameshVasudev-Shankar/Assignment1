@@ -41,6 +41,8 @@ def main():
             list_all_item(items)
         if choice == 'H':
             hire_an_item(items)
+        if choice == 'R':
+            return_an_item(items)
         print(MENU)
         choice = input(">>> ").upper()
         #  save_item()
@@ -60,27 +62,52 @@ def load_item():
 
 def list_all_item(items):
     print("All items on file ( '*' indicates item is currently out):")
-    for number in range(len(items)):
+    for line in range(len(items)):
 
-        item_name = items[number][0]
-        item_desc = items[number][1]
-        item_cost = items[number][2]
-        item_position = items[number][3]
+        item_name = items[line][0]
+        item_desc = items[line][1]
+        item_cost = items[line][2]
+        item_position = items[line][3]
         if item_position == 'out':
              item_sign = "*"
         else:
             item_sign = ""
 
-        print("{} - {:20} {:30} = $ {:>4.2f} {}".format(number, item_name, '('+item_desc+')', item_cost, item_sign))
+        print("{} - {:20} {:30} = $ {:>4.2f} {}".format(line, item_name, '('+item_desc+')', item_cost, item_sign))
 
 # load_all_item()
 
 
 def hire_an_item(items):
 
-    avl_list = []
-    for number in range (len(items)):
-        if items[number][3] == 'in':
-            print("{} - {} {} = ${:>6.2f}".format(number, item_name, '('+item_desc+')', item_cost, item_sign ))
+    items = []
+    for line in range (len(items)):
+        if items[line][3] == 'in':
+            print("{} - {} {} = $ {:>6.2f} ".format(line, items[line][0], ' ( '+items[line][1]+' ) ', items[line][2]))
+            items.append(line)
+    if len(items) == 0:
+        print("no item to hire ")
+    else:
+        choice = int(input("\n Enter the number of an item to hire : "))
+        print("{} hired for $ {:2.2f} ".format(items[choice][0], float(items[choice][2])))
+        items.remove(choice)
+        items[choice][3] = 'out'
+
+def return_an_item(items):
+    items = []
+    for line in range (len(items)):
+        if items[line][3] == 'out':
+            print("{} - {} {} = $ {:>6.2f} ".format(line, items[line][0], ' ( '+items[line][1]+' ) ', items[line][2]))
+            items.append(line)
+    if len(items) != 0:
+        print("No items to return ")
+    else:
+        choice = int(input("\n Enter the number of an item to return : "))
+        print("{} returned".format(items[choice][0]))
+        items.append(choice)
+        items[choice][3] = 'in'
+
+
+
 
 main()
