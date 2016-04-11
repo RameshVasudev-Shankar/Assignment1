@@ -78,5 +78,9 @@ def list_all_item(items):
 
 def hire_an_item(items):
 
+    avl_list = []
+    for number in range (len(items)):
+        if items[number][3] == 'in':
+            print("{} - {} {} = ${:>6.2f}".format(number, item_name, '('+item_desc+')', item_cost, item_sign ))
 
 main()
